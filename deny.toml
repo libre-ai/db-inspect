@@ -1,0 +1,20 @@
+# Permissive-only floor, aligned with the ecosystem license doctrine:
+# MIT, Apache-2.0, and Unicode-3.0 are permitted; AGPL/SSPL/BSL remain
+# banned by omission.
+# Apache-2.0 is required by sqlparser (the SQL parser powering the rules engine).
+[licenses]
+allow = ["MIT", "Apache-2.0", "Unicode-3.0"]
+confidence-threshold = 0.9
+exceptions = [
+    { name = "ar_archive_writer", allow = ["Apache-2.0 WITH LLVM-exception"] },
+]
+
+[advisories]
+yanked = "deny"
+
+[bans]
+multiple-versions = "allow"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
