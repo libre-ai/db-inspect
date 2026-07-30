@@ -114,3 +114,19 @@ An invalid inspection clock is itself a blocking `INSPECTION_CLOCK_INVALID` find
 `db-inspect` must not be confused with a vault application. Its product is database trust evidence, not user-facing secure storage.
 
 The former `vault-inspector` name is retired; avoid reintroducing vault/secrets terminology for this tool.
+
+## État du projet
+
+<!-- libre-ai:project-status:begin -->
+<!-- Section générée depuis project.v1.yaml — ne pas éditer à la main. -->
+
+- Situation actuelle : Outil autonome antérieur à l'activation générale, actif et versionné par releases.
+- Maturité : usable
+- Exposition : usable-verifiable
+- Confiance : medium
+- Preuves vérifiées le : 2026-07-30
+- Avancement : 50 % du périmètre actuellement déclaré
+
+<!-- libre-ai:project-status:end -->
+
+La fiche [`project.v1.yaml`](./project.v1.yaml) est l'autorité de l'état du projet ; cette section en est générée et le gate de flotte échoue si elles divergent.

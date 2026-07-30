@@ -1,0 +1,46 @@
+# Fiche d'état du projet — autorité de l'état depuis ADR-0020 (design §6.2).
+# La section statut du README est générée depuis cette fiche (sentinelles).
+schema_version: libre-ai.project.v1
+project: db-inspect
+repository: libre-ai/db-inspect
+kind: tool
+layer: transverse
+statement:
+  for: "les projets de la constellation Libre AI"
+  who_faces: "le coût et la dérive de machineries recopiées d'un repo à l'autre"
+  enables: "vérifier un schéma de base en CI avec un verdict fail-closed"
+  producing:
+    - "des inspections de schéma rejouables, épinglées par release"
+  without_depending_on:
+    - "aucun service tiers, aucune copie non vérifiée — consommation épinglée et gates de dérive"
+summary: "Gate d'inspection de schéma PostgreSQL fail-closed (outil CI épinglé par release)."
+current_situation: >-
+  Outil autonome antérieur à l'activation générale, actif et versionné par releases.
+scope:
+  - "Gate d'inspection de schéma PostgreSQL fail-closed (outil CI épinglé par release)."
+non_goals:
+  - "aucune seconde implémentation durable de ce domaine ailleurs dans la constellation"
+dependencies: []
+maturity: usable
+confidence: medium
+exposure: usable-verifiable
+freshness:
+  last_verified_on: "2026-07-30"
+scope_stability: stable
+benchmark:
+  none: "n/a (infrastructure, no external parity target)"
+phases:
+  - id: service
+    title: En service dans la constellation
+    exit_criteria:
+      - id: consumed-pinned
+        text: "L'outil est consommé épinglé par release dans les CI qui le déclarent."
+        weight: 1
+        status: accepted
+        evidence:
+          date: "2026-07-29"
+          reference: "inventaire ecosystem/repositories.v1.yaml (rôle standalone-tool), releases GitHub du repo"
+      - id: compat-policy
+        text: "L'API est couverte par une politique de compatibilité déclarée et un versionnage de rupture outillé."
+        weight: 1
+        status: pending
