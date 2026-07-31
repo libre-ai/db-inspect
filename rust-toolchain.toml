@@ -1,0 +1,9 @@
+# Pinned so a verdict is a function of the commit, not of the day it ran: a new
+# stable release adds clippy lints, and `-D warnings` would turn an unchanged
+# commit red. Also pins the release build, which previously took whatever
+# `rustup update stable` resolved to. Above the `rust-version = "1.95"` floor
+# declared in Cargo.toml.
+[toolchain]
+channel = "1.97.0"
+profile = "minimal"
+components = ["clippy", "rustfmt"]

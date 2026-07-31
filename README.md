@@ -18,6 +18,7 @@ Audite les surfaces Postgres sensibles : RLS, grants, migrations, pgvector et re
 - Aval : CI, [Agent Factory Engine](https://github.com/libre-ai/agent-factory/tree/main/engine), [Artifact Supply Depot](https://github.com/libre-ai/artifact-supply/tree/main/depot) si les rapports deviennent artefacts.
 - Contrats/preuves : fixtures SQL, rapports JSON, release SBOM/provenance.
 
+[![CI](https://github.com/libre-ai/db-inspect/actions/workflows/ci.yml/badge.svg)](https://github.com/libre-ai/db-inspect/actions/workflows/ci.yml)
 [![Release](https://github.com/libre-ai/db-inspect/actions/workflows/release.yml/badge.svg)](https://github.com/libre-ai/db-inspect/actions/workflows/release.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
