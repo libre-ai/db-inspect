@@ -33,7 +33,7 @@ jobs:
       # This job leans on that automatic install, which has a history worth
       # naming: 1.28.0 stopped installing the active toolchain implicitly, and
       # 1.28.1 restored it as the default with `RUSTUP_AUTO_INSTALL=0` as the
-      # opt-out (1.29.0 added `rustup set auto-install disable` alongside it).
+      # opt-out (1.28.2 added `rustup set auto-install disable` alongside it).
       # `ubuntu-latest` resolves to ubuntu-24.04, whose image ships rustup
       # 1.29.0, so the install happens. Were it ever disabled, the failure is
       # fail-closed rather than silent: the proxy errors that the toolchain is
