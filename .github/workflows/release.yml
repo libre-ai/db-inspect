@@ -8,18 +8,54 @@ on:
     tags: ['v*']
   workflow_dispatch:
 
+# Least privilege by default; only the job that creates the GitHub release
+# raises it to `write`. The gate that decides whether a release may exist runs
+# with a read-only token and cannot publish anything itself.
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  release:
-    name: Build and publish release tarball
+  # Branch protection never applies to tags, and a tag can point at any commit:
+  # the `pull_request` gates in ci.yml therefore prove nothing about the commit
+  # a release is cut from. This job re-runs the suite on the exact tagged tree
+  # and the publishing job below cannot start without it. fmt and clippy stay
+  # out on purpose — they gate what may merge, not what may ship; a style lint
+  # is not a reason to refuse a correct binary.
+  test:
+    name: Test suite
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-      - name: Ensure Rust toolchain satisfies rust-version
-        run: rustup update --no-self-update stable
+      - name: Install and report the toolchain pinned by rust-toolchain.toml
+        run: |
+          set -euo pipefail
+          cargo --version --verbose
+          rustup show active-toolchain
+
+      - run: cargo test --locked --all-features
+
+  release:
+    name: Build and publish release tarball
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      # The rustup proxies install and select the toolchain named by
+      # rust-toolchain.toml on first invocation, so no version is named twice.
+      # Reporting it records in the release log which toolchain produced the
+      # tarball that consumers pin by sha256. This step previously ran
+      # `rustup update --no-self-update stable`: now that rust-toolchain.toml
+      # exists, that installed a toolchain the build does not use, and left the
+      # workflow reading as if it built on stable.
+      - name: Install and report the toolchain pinned by rust-toolchain.toml
+        run: |
+          set -euo pipefail
+          cargo --version --verbose
+          rustup show active-toolchain
 
       - name: Build release binary (locked)
         run: cargo build --release --locked
