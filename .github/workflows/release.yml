@@ -27,6 +27,18 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
+      # No `dtolnay/rust-toolchain` here, unlike ci.yml: the runner already
+      # ships rustup, and invoking a proxy installs and selects the toolchain
+      # named by rust-toolchain.toml — so 1.97.0 is named once, in that file.
+      # This job leans on that automatic install, which has a history worth
+      # naming: 1.28.0 stopped installing the active toolchain implicitly, and
+      # 1.28.1 restored it as the default with `RUSTUP_AUTO_INSTALL=0` as the
+      # opt-out (1.29.0 added `rustup set auto-install disable` alongside it).
+      # `ubuntu-latest` resolves to ubuntu-24.04, whose image ships rustup
+      # 1.29.0, so the install happens. Were it ever disabled, the failure is
+      # fail-closed rather than silent: the proxy errors that the toolchain is
+      # not installed, this step fails, and `needs: test` keeps the publishing
+      # job from starting.
       - name: Install and report the toolchain pinned by rust-toolchain.toml
         run: |
           set -euo pipefail
@@ -44,13 +56,12 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-      # The rustup proxies install and select the toolchain named by
-      # rust-toolchain.toml on first invocation, so no version is named twice.
-      # Reporting it records in the release log which toolchain produced the
-      # tarball that consumers pin by sha256. This step previously ran
-      # `rustup update --no-self-update stable`: now that rust-toolchain.toml
-      # exists, that installed a toolchain the build does not use, and left the
-      # workflow reading as if it built on stable.
+      # Same rustup proxy install as the test job above, with the same
+      # fail-closed failure mode. Reporting the result records in the release
+      # log which toolchain produced the tarball that consumers pin by sha256.
+      # This step previously ran `rustup update --no-self-update stable`: now
+      # that rust-toolchain.toml exists, that installed a toolchain the build
+      # does not use, and left the workflow reading as if it built on stable.
       - name: Install and report the toolchain pinned by rust-toolchain.toml
         run: |
           set -euo pipefail
