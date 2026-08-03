@@ -15,7 +15,7 @@ Audite les surfaces Postgres sensibles : RLS, grants, migrations, pgvector et re
 ## Où ça se branche
 
 - Amont : migrations et schémas des produits Libre IA utilisant Postgres.
-- Aval : CI, [Agent Factory Engine](https://github.com/libre-ai/agent-factory/tree/main/engine), [Artifact Supply Depot](https://github.com/libre-ai/artifact-supply/tree/main/depot) si les rapports deviennent artefacts.
+- Aval : CI, [Orchestrator](https://github.com/libre-ai/orchestrator), [Artifacts](https://github.com/libre-ai/artifacts) si les rapports deviennent artefacts.
 - Contrats/preuves : fixtures SQL, rapports JSON, release SBOM/provenance.
 
 [![CI](https://github.com/libre-ai/db-inspect/actions/workflows/ci.yml/badge.svg)](https://github.com/libre-ai/db-inspect/actions/workflows/ci.yml)
