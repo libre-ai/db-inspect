@@ -3,7 +3,7 @@ name = "db-inspect"
 version = "0.1.0-alpha.7"
 edition = "2024"
 rust-version = "1.95"
-license = "MIT"
+license = "Apache-2.0"
 repository = "https://github.com/libre-ai/db-inspect"
 description = "SQL and database security inspection for Postgres, pgvector, RLS, grants, and migrations."
 
