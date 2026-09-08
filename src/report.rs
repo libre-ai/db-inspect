@@ -4,6 +4,7 @@ use crate::{
 };
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
+use std::fmt::Write as _;
 use std::path::Path;
 
 pub struct RenderedReport {
@@ -197,7 +198,15 @@ pub fn render_markdown_report(
 
 pub fn sha256_prefixed(content: &str) -> String {
     let digest = Sha256::digest(content.as_bytes());
-    format!("sha256:{digest:x}")
+    // digest 0.11's `Array<u8, _>` (hybrid-array) carries no `LowerHex` impl,
+    // unlike 0.10's `GenericArray`; render byte by byte instead so the output
+    // is unchanged (2 lowercase hex chars per byte), pinned by the test below.
+    let mut hex = String::with_capacity(2 * digest.len() + "sha256:".len());
+    hex.push_str("sha256:");
+    for byte in digest {
+        write!(hex, "{byte:02x}").expect("writing to a String never fails");
+    }
+    hex
 }
 
 fn metrics(
@@ -285,5 +294,21 @@ fn status(findings: &[Finding], blocked: bool) -> &'static str {
         "passed_with_waiver"
     } else {
         "passed"
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::sha256_prefixed;
+
+    // FIPS 180-2 test vector: SHA-256("abc"). Pins the exact rendering
+    // (lowercase hex, sha2 major-version-independent) before the sha2 0.11
+    // upgrade swaps generic-array for hybrid-array.
+    #[test]
+    fn sha256_prefixed_matches_a_known_vector() {
+        assert_eq!(
+            sha256_prefixed("abc"),
+            "sha256:ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        );
     }
 }
