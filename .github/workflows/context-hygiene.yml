@@ -3,7 +3,7 @@ name: Context hygiene
 # Blocks private identifiers and machine-local paths from entering the public
 # tree. Delegates to governance's reusable-context-hygiene.yml so the deny
 # patterns and their base64 obfuscation live in one place instead of being
-# copied per repository (fleet-pins.v1.yaml generation 9cd1d421, the current
+# copied per repository (fleet-pins.v1.yaml generation 8c238c09, the current
 # declared generation — the same one this repository's licensing.yml is
 # bumped to in the same commit, so every pin surface agrees, per
 # fleet-pins.v1.yaml's "all surfaces must carry the same sha" rule).
@@ -18,4 +18,4 @@ permissions:
 
 jobs:
   context-hygiene:
-    uses: libre-ai/governance/.github/workflows/reusable-context-hygiene.yml@9cd1d421d318129db99456d963f4bc1cfad67b33
+    uses: libre-ai/governance/.github/workflows/reusable-context-hygiene.yml@8c238c09efd443a4866459160dac1cfee31d88be
